@@ -1,0 +1,70 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  cinemas(
+    criterias: CinemaSearchCriterias
+    pagination: Pagination = { page: 1, perPage: 20 }
+    order: Order
+  ): [Cinema!]!
+#  movies(
+#    criterias: MovieSearchCriterias
+#    pagination: Pagination = { page: 1, perPage: 20 }
+#    order: Order
+#  ): [Movie!]!
+}
+
+type Mutation {
+  noop: Boolean!
+}
+
+scalar Order
+
+enum EExposedFormat {
+  FULLHD
+  F4K
+  F3D
+  F4D
+}
+
+type Cinema {
+  id: ID! @juniper(ownership: "owned")
+  name: String!
+  movies(
+    criterias: MovieSearchCriterias
+    pagination: Pagination = { perPage: 20 }
+    order: Order
+  ): [PlannedMovie!]!
+}
+
+type PlannedMovie {
+  id: ID! @juniper(ownership: "owned")
+  exposedFormat: EExposedFormat
+  pixelsBox: [Float!]
+  movie: Movie!
+}
+
+type Movie {
+  id: ID! @juniper(ownership: "owned")
+  name: String!
+  description: String
+  pixelsBox: [Float!]
+  path: String
+}
+
+input Pagination {
+  page: Int
+  perPage: Int
+}
+
+input CinemaSearchCriterias {
+  name: String
+  nameContains: String
+}
+
+input MovieSearchCriterias {
+  name: String
+  path: String
+}
