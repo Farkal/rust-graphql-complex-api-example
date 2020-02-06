@@ -27,3 +27,4 @@ cargo run
 - [ ] Add metrics route (prometheus for exemple)
 - [ ] Add health route (for kube check health)
 - [ ] Create public and private api with differents ports but sharing database, metrics...
+- [ ] Add Dockerfile  
